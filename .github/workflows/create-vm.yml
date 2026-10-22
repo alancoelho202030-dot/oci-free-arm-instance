@@ -1,9 +1,13 @@
 name: Try to Create OCI VM
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
+  # Apagamos o schedule, agora quem manda é o cron-job.org
   workflow_dispatch:
+
+# Isso impede que duas tentativas rodem ao mesmo tempo e travem a API
+concurrency:
+  group: oci-vm-creation
+  cancel-in-progress: false
 
 env:
   COMPARTMENT_ID: ${{ secrets.OCI_COMPARTMENT_ID }}
